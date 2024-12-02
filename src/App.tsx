@@ -21,7 +21,7 @@ function App() {
         <Route path="/mock-draft" element={<MockDraftPage />} />
       </Routes>
     </div>
-  )
+  ) 
 }
 
 export default App
