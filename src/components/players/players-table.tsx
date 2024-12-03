@@ -31,6 +31,7 @@ import { TablePagination } from "./players-table-pagination"
 import { TableSearch } from "./players-table-search"
 import { TableEmpty } from "./players-table-empty"
 import { PositionFilter } from "./players-table-position-filter"
+import { cn } from "@/lib/utils"
 
 export function PlayersTable() {
   const [sorting, setSorting] = useState<SortingState>([
@@ -99,9 +100,19 @@ export function PlayersTable() {
       header: "Player",
       cell: ({ row }) => (
         <div>
-          <div>{row.original.name}</div>
+          <div className="flex items-center gap-1.5">
+            {row.original.name}
+            {row.original.injury && (
+              <span className={cn(
+                "text-xs font-medium",
+                row.original.injury === "Q" ? "text-orange-500" : "text-red-500"
+              )}>
+                {row.original.injury}
+              </span>
+            )}
+          </div>
           <div className="text-[10px] font-normal text-muted-foreground">
-            {row.original.team} • {row.original.position} ({row.original.byeWeek})
+            {row.original.position} {row.original.team} ({row.original.byeWeek})
           </div>
         </div>
       ),

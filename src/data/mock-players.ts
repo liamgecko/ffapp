@@ -15,6 +15,7 @@ export type Player = {
   receptions: number
   targets: number
   receivingTouchdowns: number
+  injury: string
 }
 
 export const mockPlayers: Player[] = [
@@ -34,7 +35,8 @@ export const mockPlayers: Player[] = [
     receivingYards: 0,
     receptions: 0,
     targets: 0,
-    receivingTouchdowns: 0
+    receivingTouchdowns: 0,
+    injury: ""
   },
   {
     id: "2",
@@ -52,7 +54,8 @@ export const mockPlayers: Player[] = [
     receivingYards: 564,
     receptions: 67,
     targets: 83,
-    receivingTouchdowns: 7
+    receivingTouchdowns: 7,
+    injury: ""
   },
   {
     id: "3",
@@ -70,7 +73,8 @@ export const mockPlayers: Player[] = [
     receivingYards: 1809,
     receptions: 128,
     targets: 184,
-    receivingTouchdowns: 8
+    receivingTouchdowns: 8,
+    injury: ""
   },
   {
     id: "4",
@@ -88,7 +92,8 @@ export const mockPlayers: Player[] = [
     receivingYards: 1338,
     receptions: 110,
     targets: 152,
-    receivingTouchdowns: 12
+    receivingTouchdowns: 12,
+    injury: "OUT"
   },
   {
     id: "5",
@@ -106,7 +111,8 @@ export const mockPlayers: Player[] = [
     receivingYards: 0,
     receptions: 0,
     targets: 0,
-    receivingTouchdowns: 0
+    receivingTouchdowns: 0,
+    injury: ""
   },
   {
     id: "6",
@@ -124,7 +130,8 @@ export const mockPlayers: Player[] = [
     receivingYards: 722,
     receptions: 107,
     targets: 127,
-    receivingTouchdowns: 5
+    receivingTouchdowns: 5,
+    injury: ""
   },
   {
     id: "7",
@@ -142,7 +149,8 @@ export const mockPlayers: Player[] = [
     receivingYards: 1710,
     receptions: 119,
     targets: 170,
-    receivingTouchdowns: 7
+    receivingTouchdowns: 7,
+    injury: ""
   },
   {
     id: "8",
@@ -160,7 +168,8 @@ export const mockPlayers: Player[] = [
     receivingYards: 0,
     receptions: 0,
     targets: 0,
-    receivingTouchdowns: 0
+    receivingTouchdowns: 0,
+    injury: ""
   },
   {
     id: "9",
@@ -178,7 +187,8 @@ export const mockPlayers: Player[] = [
     receivingYards: 0,
     receptions: 0,
     targets: 0,
-    receivingTouchdowns: 0
+    receivingTouchdowns: 0,
+    injury: ""
   },
   {
     id: "10",
@@ -196,7 +206,8 @@ export const mockPlayers: Player[] = [
     receivingYards: 847,
     receptions: 73,
     targets: 113,
-    receivingTouchdowns: 5
+    receivingTouchdowns: 5,
+    injury: "Q"
   },
   {
     id: "11",
@@ -214,6 +225,7 @@ export const mockPlayers: Player[] = [
     receivingYards: 0,
     receptions: 0,
     targets: 0,
-    receivingTouchdowns: 0
+    receivingTouchdowns: 0,
+    injury: ""
   }
 ] 
