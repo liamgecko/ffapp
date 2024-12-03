@@ -5,6 +5,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  TableFooter,
 } from "@/components/ui/table"
 import {
   Tooltip,
@@ -21,13 +22,29 @@ import {
   getCoreRowModel,
   getSortedRowModel,
   useReactTable,
+  getPaginationRowModel,
+  PaginationState,
 } from "@tanstack/react-table"
-import { useState } from "react"
+import { useState, useMemo } from "react"
+import { TablePagination } from "./players-table-pagination"
 
 export function PlayersTable() {
   const [sorting, setSorting] = useState<SortingState>([
     { id: "fantasyPoints", desc: true }
   ])
+
+  const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10,
+  })
+
+  const pagination = useMemo(
+    () => ({
+      pageIndex,
+      pageSize,
+    }),
+    [pageIndex, pageSize]
+  )
 
   const columns: ColumnDef<typeof mockPlayers[0]>[] = [
     {
@@ -370,47 +387,69 @@ export function PlayersTable() {
     columns,
     state: {
       sorting,
+      pagination,
     },
     onSortingChange: setSorting,
+    onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   })
 
   return (
     <TooltipProvider>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              {table.getHeaderGroups().map((headerGroup) => (
-                headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className="font-medium text-xs bg-muted/40">
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                ))
-              ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows.map((row) => (
-              <TableRow 
-                key={row.id}
-                className="hover:bg-muted/50 cursor-pointer"
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
+      <div>
+        <div className="rounded-md border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  headerGroup.headers.map((header) => (
+                    <TableHead key={header.id} className="font-medium text-xs bg-muted/40">
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  ))
                 ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows.map((row) => (
+                <TableRow 
+                  key={row.id}
+                  className="hover:bg-muted/50 cursor-pointer"
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TableCell colSpan={columns.length}>
+                  <TablePagination
+                    rowsPerPage={pageSize}
+                    page={pageIndex}
+                    totalRows={mockPlayers.length}
+                    setRowsPerPage={(value) => 
+                      setPagination((prev) => ({ ...prev, pageSize: value }))
+                    }
+                    setPage={(value) => 
+                      setPagination((prev) => ({ ...prev, pageIndex: value }))
+                    }
+                  />
+                </TableCell>
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </div>
       </div>
     </TooltipProvider>
   )
