@@ -24,9 +24,12 @@ import {
   useReactTable,
   getPaginationRowModel,
   PaginationState,
+  getFilteredRowModel,
 } from "@tanstack/react-table"
 import { useState, useMemo } from "react"
 import { TablePagination } from "./players-table-pagination"
+import { TableSearch } from "./players-table-search"
+import { TableEmpty } from "./players-table-empty"
 
 export function PlayersTable() {
   const [sorting, setSorting] = useState<SortingState>([
@@ -37,6 +40,8 @@ export function PlayersTable() {
     pageIndex: 0,
     pageSize: 10,
   })
+
+  const [globalFilter, setGlobalFilter] = useState("")
 
   const pagination = useMemo(
     () => ({
@@ -388,21 +393,31 @@ export function PlayersTable() {
     state: {
       sorting,
       pagination,
+      globalFilter,
     },
     onSortingChange: setSorting,
     onPaginationChange: setPagination,
+    onGlobalFilterChange: setGlobalFilter,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
   })
 
   return (
     <TooltipProvider>
       <div>
+        <div className="flex justify-end mb-4">
+          <TableSearch
+            value={globalFilter}
+            onChange={setGlobalFilter}
+            onClear={() => setGlobalFilter("")}
+          />
+        </div>
         <div className="rounded-md border">
           <Table>
             <TableHeader>
-              <TableRow>
+              <TableRow className="hover:bg-transparent">
                 {table.getHeaderGroups().map((headerGroup) => (
                   headerGroup.headers.map((header) => (
                     <TableHead key={header.id} className="font-medium text-xs bg-muted/40">
@@ -418,26 +433,33 @@ export function PlayersTable() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {table.getRowModel().rows.map((row) => (
-                <TableRow 
-                  key={row.id}
-                  className="hover:bg-muted/50 cursor-pointer"
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
+              {table.getRowModel().rows.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow 
+                    key={row.id}
+                    className="hover:bg-muted/50 cursor-pointer"
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableEmpty 
+                  searchTerm={globalFilter} 
+                  colSpan={columns.length} 
+                />
+              )}
             </TableBody>
             <TableFooter>
-              <TableRow>
+              <TableRow className="hover:bg-transparent">
                 <TableCell colSpan={columns.length}>
                   <TablePagination
                     rowsPerPage={pageSize}
                     page={pageIndex}
-                    totalRows={mockPlayers.length}
+                    totalRows={table.getFilteredRowModel().rows.length}
                     setRowsPerPage={(value) => 
                       setPagination((prev) => ({ ...prev, pageSize: value }))
                     }
