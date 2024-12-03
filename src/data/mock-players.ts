@@ -17,6 +17,7 @@ export type Player = {
   receivingTouchdowns: number
   injury: string
   ownership: number
+  imageUrl: string
 }
 
 export const mockPlayers: Player[] = [
@@ -38,7 +39,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 99
+    ownership: 99,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3139477.png"
   },
   {
     id: "2",
@@ -58,7 +60,8 @@ export const mockPlayers: Player[] = [
     targets: 83,
     receivingTouchdowns: 7,
     injury: "",
-    ownership: 99
+    ownership: 99,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3117251.png"
   },
   {
     id: "3",
@@ -78,7 +81,8 @@ export const mockPlayers: Player[] = [
     targets: 184,
     receivingTouchdowns: 8,
     injury: "",
-    ownership: 98
+    ownership: 98,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4262921.png"
   },
   {
     id: "4",
@@ -98,7 +102,8 @@ export const mockPlayers: Player[] = [
     targets: 152,
     receivingTouchdowns: 12,
     injury: "OUT",
-    ownership: 98
+    ownership: 98,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/15847.png"
   },
   {
     id: "5",
@@ -118,7 +123,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 98
+    ownership: 98,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3918298.png"
   },
   {
     id: "6",
@@ -138,7 +144,8 @@ export const mockPlayers: Player[] = [
     targets: 127,
     receivingTouchdowns: 5,
     injury: "",
-    ownership: 96
+    ownership: 96,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3128720.png"
   },
   {
     id: "7",
@@ -158,7 +165,8 @@ export const mockPlayers: Player[] = [
     targets: 170,
     receivingTouchdowns: 7,
     injury: "",
-    ownership: 97
+    ownership: 97,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3116406.png"
   },
   {
     id: "8",
@@ -178,7 +186,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 95
+    ownership: 95,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/15683.png"
   },
   {
     id: "9",
@@ -198,7 +207,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 94
+    ownership: 94,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/sf.png"
   },
   {
     id: "10",
@@ -218,7 +228,8 @@ export const mockPlayers: Player[] = [
     targets: 113,
     receivingTouchdowns: 5,
     injury: "Q",
-    ownership: 85
+    ownership: 85,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3116365.png"
   },
   {
     id: "11",
@@ -238,7 +249,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 97
+    ownership: 97,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4040715.png"
   },
   {
     id: "12",
@@ -258,7 +270,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 96
+    ownership: 96,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3916387.png"
   },
   {
     id: "13",
@@ -278,7 +291,8 @@ export const mockPlayers: Player[] = [
     targets: 145,
     receivingTouchdowns: 9,
     injury: "",
-    ownership: 97
+    ownership: 97,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4362628.png"
   },
   {
     id: "14",
@@ -298,7 +312,8 @@ export const mockPlayers: Player[] = [
     targets: 154,
     receivingTouchdowns: 11,
     injury: "",
-    ownership: 96
+    ownership: 96,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/2976212.png"
   },
   {
     id: "15",
@@ -318,7 +333,8 @@ export const mockPlayers: Player[] = [
     targets: 55,
     receivingTouchdowns: 3,
     injury: "",
-    ownership: 95
+    ownership: 95,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4040761.png"
   },
   {
     id: "16",
@@ -338,7 +354,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 94
+    ownership: 94,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4241479.png"
   },
   {
     id: "17",
@@ -358,7 +375,8 @@ export const mockPlayers: Player[] = [
     targets: 181,
     receivingTouchdowns: 12,
     injury: "",
-    ownership: 98
+    ownership: 98,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4241389.png"
   },
   {
     id: "18",
@@ -378,7 +396,8 @@ export const mockPlayers: Player[] = [
     targets: 164,
     receivingTouchdowns: 10,
     injury: "",
-    ownership: 97
+    ownership: 97,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4374302.png"
   },
   {
     id: "19",
@@ -398,7 +417,8 @@ export const mockPlayers: Player[] = [
     targets: 95,
     receivingTouchdowns: 4,
     injury: "",
-    ownership: 95
+    ownership: 95,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4427366.png"
   },
   {
     id: "20",
@@ -418,7 +438,8 @@ export const mockPlayers: Player[] = [
     targets: 91,
     receivingTouchdowns: 6,
     injury: "",
-    ownership: 94
+    ownership: 94,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3040151.png"
   },
   {
     id: "21",
@@ -438,7 +459,8 @@ export const mockPlayers: Player[] = [
     targets: 35,
     receivingTouchdowns: 1,
     injury: "Q",
-    ownership: 88
+    ownership: 88,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4429202.png"
   },
   {
     id: "22",
@@ -458,7 +480,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 95
+    ownership: 95,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4038941.png"
   },
   {
     id: "23",
@@ -478,7 +501,8 @@ export const mockPlayers: Player[] = [
     targets: 132,
     receivingTouchdowns: 7,
     injury: "",
-    ownership: 92
+    ownership: 92,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4241478.png"
   },
   {
     id: "24",
@@ -498,7 +522,8 @@ export const mockPlayers: Player[] = [
     targets: 89,
     receivingTouchdowns: 3,
     injury: "",
-    ownership: 89
+    ownership: 89,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3128721.png"
   },
   {
     id: "25",
@@ -518,7 +543,8 @@ export const mockPlayers: Player[] = [
     targets: 34,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 96
+    ownership: 96,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3043078.png"
   },
   {
     id: "26",
@@ -538,7 +564,8 @@ export const mockPlayers: Player[] = [
     targets: 137,
     receivingTouchdowns: 7,
     injury: "",
-    ownership: 85
+    ownership: 85,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/15795.png"
   },
   {
     id: "27",
@@ -558,7 +585,8 @@ export const mockPlayers: Player[] = [
     targets: 98,
     receivingTouchdowns: 2,
     injury: "OUT",
-    ownership: 45
+    ownership: 45,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4362628.png"
   },
   {
     id: "28",
@@ -578,7 +606,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 93
+    ownership: 93,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/2577417.png"
   },
   {
     id: "29",
@@ -598,7 +627,8 @@ export const mockPlayers: Player[] = [
     targets: 138,
     receivingTouchdowns: 5,
     injury: "",
-    ownership: 92
+    ownership: 92,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4361370.png"
   },
   {
     id: "30",
@@ -618,7 +648,8 @@ export const mockPlayers: Player[] = [
     targets: 98,
     receivingTouchdowns: 4,
     injury: "",
-    ownership: 88
+    ownership: 88,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3051902.png"
   },
   {
     id: "31",
@@ -638,7 +669,8 @@ export const mockPlayers: Player[] = [
     targets: 56,
     receivingTouchdowns: 4,
     injury: "",
-    ownership: 89
+    ownership: 89,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4379399.png"
   },
   {
     id: "32",
@@ -658,7 +690,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "OUT",
-    ownership: 65
+    ownership: 65,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4362887.png"
   },
   {
     id: "33",
@@ -678,7 +711,8 @@ export const mockPlayers: Player[] = [
     targets: 110,
     receivingTouchdowns: 4,
     injury: "",
-    ownership: 75
+    ownership: 75,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4426502.png"
   },
   {
     id: "34",
@@ -698,7 +732,8 @@ export const mockPlayers: Player[] = [
     targets: 91,
     receivingTouchdowns: 3,
     injury: "",
-    ownership: 62
+    ownership: 62,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4372016.png"
   },
   {
     id: "35",
@@ -718,7 +753,8 @@ export const mockPlayers: Player[] = [
     targets: 47,
     receivingTouchdowns: 2,
     injury: "",
-    ownership: 82
+    ownership: 82,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4361579.png"
   },
   {
     id: "36",
@@ -738,7 +774,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 68
+    ownership: 68,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4036026.png"
   },
   {
     id: "37",
@@ -758,7 +795,8 @@ export const mockPlayers: Player[] = [
     targets: 168,
     receivingTouchdowns: 4,
     injury: "",
-    ownership: 85
+    ownership: 85,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4569618.png"
   },
   {
     id: "38",
@@ -778,7 +816,8 @@ export const mockPlayers: Player[] = [
     targets: 120,
     receivingTouchdowns: 10,
     injury: "",
-    ownership: 78
+    ownership: 78,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4430027.png"
   },
   {
     id: "39",
@@ -798,7 +837,8 @@ export const mockPlayers: Player[] = [
     targets: 25,
     receivingTouchdowns: 1,
     injury: "IR",
-    ownership: 45
+    ownership: 45,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4035663.png"
   },
   {
     id: "40",
@@ -818,7 +858,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "IR",
-    ownership: 25
+    ownership: 25,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4432577.png"
   },
   {
     id: "41",
@@ -838,7 +879,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 96
+    ownership: 96,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/dal.png"
   },
   {
     id: "42",
@@ -858,7 +900,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 95
+    ownership: 95,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3052587.png"
   },
   {
     id: "43",
@@ -878,7 +921,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 92
+    ownership: 92,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/phi.png"
   },
   {
     id: "44",
@@ -898,7 +942,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 88
+    ownership: 88,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/buf.png"
   },
   {
     id: "45",
@@ -918,7 +963,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 92
+    ownership: 92,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3953687.png"
   },
   {
     id: "46",
@@ -938,7 +984,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 88
+    ownership: 88,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3051929.png"
   },
   {
     id: "47",
@@ -958,7 +1005,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 85
+    ownership: 85,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/bal.png"
   },
   {
     id: "48",
@@ -978,7 +1026,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 82
+    ownership: 82,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/cle.png"
   },
   {
     id: "49",
@@ -998,7 +1047,8 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 85
+    ownership: 85,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4372066.png"
   },
   {
     id: "50",
@@ -1018,6 +1068,7 @@ export const mockPlayers: Player[] = [
     targets: 0,
     receivingTouchdowns: 0,
     injury: "",
-    ownership: 78
+    ownership: 78,
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3124679.png"
   }
 ] 

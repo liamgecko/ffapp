@@ -17,4 +17,5 @@ export type Player = {
   receivingTouchdowns: number
   injury: string
   ownership: number
+  imageUrl: string
 } 

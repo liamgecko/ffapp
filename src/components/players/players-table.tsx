@@ -32,7 +32,7 @@ import { TableSearch } from "./players-table-search"
 import { TableEmpty } from "./players-table-empty"
 import { PositionFilter } from "./players-table-position-filter"
 import { cn } from "@/lib/utils"
-import { Progress } from "@/components/ui/progress"
+import { Avatar } from "@/components/ui/avatar"
 
 export function PlayersTable() {
   const [sorting, setSorting] = useState<SortingState>([
@@ -111,20 +111,32 @@ export function PlayersTable() {
       accessorKey: "name",
       header: "Player",
       cell: ({ row }) => (
-        <div>
-          <div className="flex items-center gap-1.5">
-            {row.original.name}
-            {row.original.injury && (
-              <span className={cn(
-                "text-xs font-medium",
-                row.original.injury === "Q" ? "text-orange-500" : "text-red-500"
-              )}>
-                {row.original.injury}
-              </span>
+        <div className="flex items-center gap-2">
+          <Avatar className="h-8 w-8">
+            {row.original.imageUrl ? (
+              <img 
+                src={row.original.imageUrl} 
+                alt={row.original.name}
+                className="object-cover"
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center bg-muted">
+                {row.original.name.charAt(0)}
+              </div>
             )}
-          </div>
-          <div className="text-[10px] font-normal text-muted-foreground">
-            {row.original.position} {row.original.team} ({row.original.byeWeek})
+          </Avatar>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-1.5">
+              <span className="font-medium truncate">{row.original.name}</span>
+              {row.original.injury && (
+                <span className="text-xs text-red-500 font-medium flex-shrink-0">
+                  {row.original.injury}
+                </span>
+              )}
+            </div>
+            <div className="text-xs text-muted-foreground truncate">
+              {row.original.team} · {row.original.position}
+            </div>
           </div>
         </div>
       ),
