@@ -1,7 +1,10 @@
+import { PlayersTable } from "@/components/players/players-table"
+
 export default function PlayersPage() {
   return (
-    <div>
-      <h1 className="text-4xl font-bold mb-4">Players</h1>
+    <div className="container py-6">
+      <h1 className="text-3xl font-bold mb-6">Players</h1>
+      <PlayersTable />
     </div>
   )
 } 

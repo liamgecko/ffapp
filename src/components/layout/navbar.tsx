@@ -16,26 +16,27 @@ export function Navbar() {
   const navigate = useNavigate()
   const location = useLocation()
 
+  const handleNavigation = (href: string) => {
+    navigate(href)
+  }
+
   return (
     <div className="border-b">
       <div className="container flex h-16 items-center justify-between px-4">
-        {/* Logo */}
         <button 
-          onClick={() => navigate("/")} 
+          onClick={() => handleNavigation("/")} 
           className="text-xl font-bold"
         >
           NFL Fantasy
         </button>
 
-        {/* Navigation Container */}
         <div className="flex items-center gap-4">
-          {/* Main Navigation */}
           <NavigationMenu>
             <NavigationMenuList>
               {mainNavItems.map((item) => (
                 <NavigationMenuItem key={item.href}>
                   <button
-                    onClick={() => navigate(item.href)}
+                    onClick={() => handleNavigation(item.href)}
                     className={cn(
                       navigationMenuTriggerStyle(),
                       "cursor-pointer",
@@ -49,11 +50,10 @@ export function Navbar() {
             </NavigationMenuList>
           </NavigationMenu>
 
-          {/* User Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Avatar className="h-8 w-8 cursor-pointer">
-                <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
+                <AvatarFallback className="bg-primary text-primary-foreground">
                   JD
                 </AvatarFallback>
               </Avatar>
@@ -74,7 +74,7 @@ export function Navbar() {
                 Settings
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="dark:hover:!bg-rose-700">
+              <DropdownMenuItem className="text-red-500 hover:!bg-red-200 dark:hover:!bg-red-200 dark:hover:!text-red-500">
                 Log out
               </DropdownMenuItem>
             </DropdownMenuContent>
