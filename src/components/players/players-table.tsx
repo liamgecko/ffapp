@@ -32,32 +32,7 @@ export function PlayersTable() {
   const columns: ColumnDef<typeof mockPlayers[0]>[] = [
     {
       accessorKey: "name",
-      header: ({ column }) => (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button
-              className={`flex items-center gap-1 p-1 transition-colors ${
-                column.getIsSorted()
-                  ? "text-white"
-                  : "text-muted-foreground hover:text-white active:text-white"
-              }`}
-              onClick={() => column.toggleSorting(column.getIsSorted() === "desc")}
-            >
-              <span>Player</span>
-              <div className="w-3 h-3 ml-1">
-                {column.getIsSorted() === "asc" ? (
-                  <ArrowUp className="h-3 w-3" />
-                ) : column.getIsSorted() === "desc" ? (
-                  <ArrowDown className="h-3 w-3" />
-                ) : null}
-              </div>
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Player</p>
-          </TooltipContent>
-        </Tooltip>
-      ),
+      header: "Player",
       cell: ({ row }) => (
         <div>
           <div>{row.original.name}</div>
@@ -66,6 +41,7 @@ export function PlayersTable() {
           </div>
         </div>
       ),
+      enableSorting: false,
     },
     {
       accessorKey: "fantasyPoints",
