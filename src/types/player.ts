@@ -1,3 +1,20 @@
 export type Player = {
-  injury?: "Q" | "D" | "OUT" | "IR" | "SUS" | "PUP" | "EX"
+  id: string
+  name: string
+  team: string
+  position: string
+  byeWeek: number
+  fantasyPoints: number
+  passingYards: number
+  passingAttempts: number
+  passingTouchdowns: number
+  rushingYards: number
+  rushingAttempts: number
+  rushingTouchdowns: number
+  receivingYards: number
+  receptions: number
+  targets: number
+  receivingTouchdowns: number
+  injury: string
+  ownership: number
 } 

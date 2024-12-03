@@ -32,6 +32,7 @@ import { TableSearch } from "./players-table-search"
 import { TableEmpty } from "./players-table-empty"
 import { PositionFilter } from "./players-table-position-filter"
 import { cn } from "@/lib/utils"
+import { Progress } from "@/components/ui/progress"
 
 export function PlayersTable() {
   const [sorting, setSorting] = useState<SortingState>([
@@ -92,6 +93,17 @@ export function PlayersTable() {
     if (rank >= 37 && rank <= 48) return "text-orange-500"
     if (rank > 48) return "text-red-500"
     return "" // default color for ranks 13-36
+  }
+
+  const getOwnershipColor = (ownership: number): string => {
+    if (ownership >= 95) return "bg-emerald-500"
+    if (ownership >= 85) return "bg-emerald-400"
+    if (ownership >= 75) return "bg-lime-400"
+    if (ownership >= 65) return "bg-yellow-400"
+    if (ownership >= 55) return "bg-amber-500"
+    if (ownership >= 45) return "bg-orange-500"
+    if (ownership >= 35) return "bg-rose-400"
+    return "bg-red-500"
   }
 
   const columns: ColumnDef<typeof mockPlayers[0]>[] = [
@@ -448,6 +460,26 @@ export function PlayersTable() {
         </Tooltip>
       ),
     },
+    {
+      accessorKey: "ownership",
+      header: "% Owned",
+      cell: ({ row }) => {
+        const ownership = row.original.ownership
+        return (
+          <div className="w-24 flex items-center gap-2">
+            <div className={cn("h-2 w-full bg-muted rounded-full overflow-hidden")}>
+              <div 
+                className={cn("h-full transition-all", getOwnershipColor(ownership))} 
+                style={{ width: `${ownership}%` }}
+              />
+            </div>
+            <span className="text-xs text-muted-foreground">
+              {ownership}%
+            </span>
+          </div>
+        )
+      },
+    }
   ]
 
   const table = useReactTable({
