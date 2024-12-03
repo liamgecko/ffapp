@@ -22,7 +22,7 @@ export function Navbar() {
 
   return (
     <div className="border-b">
-      <div className="container flex h-16 items-center justify-between px-4">
+      <div className="container flex h-16 items-center justify-between">
         <button 
           onClick={() => handleNavigation("/")} 
           className="text-xl font-bold"
