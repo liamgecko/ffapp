@@ -33,6 +33,7 @@ import { TableEmpty } from "./players-table-empty"
 import { PositionFilter } from "./players-table-position-filter"
 import { cn } from "@/lib/utils"
 import { Avatar } from "@/components/ui/avatar"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export function PlayersTable() {
   const [sorting, setSorting] = useState<SortingState>([
@@ -45,6 +46,8 @@ export function PlayersTable() {
   })
 
   const [globalFilter, setGlobalFilter] = useState("")
+
+  const [activeView, setActiveView] = useState("nfl")
 
   const playersWithRanks = useMemo(() => {
     const positionGroups = mockPlayers.reduce((groups, player) => {
@@ -514,13 +517,26 @@ export function PlayersTable() {
   return (
     <TooltipProvider>
       <div>
-        <div className="flex items-center justify-end gap-2 mb-4">
-          <PositionFilter onChange={handlePositionChange} />
-          <TableSearch
-            value={globalFilter}
-            onChange={setGlobalFilter}
-            onClear={() => setGlobalFilter("")}
-          />
+        <div className="flex items-center justify-end gap-4 mb-4">
+          <Tabs 
+            value={activeView} 
+            onValueChange={setActiveView}
+            className="w-[200px]"
+          >
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="nfl">NFL</TabsTrigger>
+              <TabsTrigger value="fantasy">Fantasy</TabsTrigger>
+            </TabsList>
+          </Tabs>
+
+          <div className="flex items-center gap-2">
+            <PositionFilter onChange={handlePositionChange} />
+            <TableSearch
+              value={globalFilter}
+              onChange={setGlobalFilter}
+              onClear={() => setGlobalFilter("")}
+            />
+          </div>
         </div>
         <div className="rounded-md border">
           <Table>
