@@ -30,6 +30,7 @@ import { useState, useMemo } from "react"
 import { TablePagination } from "./players-table-pagination"
 import { TableSearch } from "./players-table-search"
 import { TableEmpty } from "./players-table-empty"
+import { PositionFilter } from "./players-table-position-filter"
 
 export function PlayersTable() {
   const [sorting, setSorting] = useState<SortingState>([
@@ -43,6 +44,38 @@ export function PlayersTable() {
 
   const [globalFilter, setGlobalFilter] = useState("")
 
+  const playersWithRanks = useMemo(() => {
+    const positionGroups = mockPlayers.reduce((groups, player) => {
+      const position = player.position
+      if (!groups[position]) {
+        groups[position] = []
+      }
+      groups[position].push(player)
+      return groups
+    }, {} as Record<string, typeof mockPlayers>)
+
+    return mockPlayers.map(player => {
+      const positionGroup = positionGroups[player.position]
+      const sortedGroup = [...positionGroup].sort((a, b) => b.fantasyPoints - a.fantasyPoints)
+      const rank = sortedGroup.findIndex(p => p.name === player.name) + 1
+      const prefix = player.position === "DEF" ? "D" : player.position
+      return {
+        ...player,
+        positionRank: `${prefix}${rank}`
+      }
+    })
+  }, [])
+
+  const [filteredPlayers, setFilteredPlayers] = useState(playersWithRanks)
+
+  const handlePositionChange = (position: string) => {
+    if (position === "ALL") {
+      setFilteredPlayers(playersWithRanks)
+    } else {
+      setFilteredPlayers(playersWithRanks.filter(player => player.position === position))
+    }
+  }
+
   const pagination = useMemo(
     () => ({
       pageIndex,
@@ -50,6 +83,15 @@ export function PlayersTable() {
     }),
     [pageIndex, pageSize]
   )
+
+  const getRankColor = (positionRank: string) => {
+    const rank = parseInt(positionRank.replace(/[A-Z]/g, ''))
+    
+    if (rank <= 12) return "text-green-500"
+    if (rank >= 37 && rank <= 48) return "text-orange-500"
+    if (rank > 48) return "text-red-500"
+    return "" // default color for ranks 13-36
+  }
 
   const columns: ColumnDef<typeof mockPlayers[0]>[] = [
     {
@@ -59,8 +101,18 @@ export function PlayersTable() {
         <div>
           <div>{row.original.name}</div>
           <div className="text-[10px] font-normal text-muted-foreground">
-            {row.original.team} • {row.original.position} {row.original.byeWeek}
+            {row.original.team} • {row.original.position} ({row.original.byeWeek})
           </div>
+        </div>
+      ),
+      enableSorting: false,
+    },
+    {
+      accessorKey: "positionRank",
+      header: "Rank",
+      cell: ({ row }) => (
+        <div className={getRankColor(row.original.positionRank)}>
+          {row.original.positionRank}
         </div>
       ),
       enableSorting: false,
@@ -388,7 +440,7 @@ export function PlayersTable() {
   ]
 
   const table = useReactTable({
-    data: mockPlayers,
+    data: filteredPlayers,
     columns,
     state: {
       sorting,
@@ -407,7 +459,8 @@ export function PlayersTable() {
   return (
     <TooltipProvider>
       <div>
-        <div className="flex justify-end mb-4">
+        <div className="flex items-center justify-end gap-2 mb-4">
+          <PositionFilter onChange={handlePositionChange} />
           <TableSearch
             value={globalFilter}
             onChange={setGlobalFilter}
