@@ -13,7 +13,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { mockPlayers } from "@/data/mock-players"
 import { ArrowUp, ArrowDown, SignalLow, SignalMedium, SignalHigh } from "lucide-react"
 import {
   ColumnDef,
@@ -26,7 +25,7 @@ import {
   PaginationState,
   getFilteredRowModel,
 } from "@tanstack/react-table"
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { TablePagination } from "./players-table-pagination"
 import { TableSearch } from "./players-table-search"
 import { TableEmpty } from "./players-table-empty"
@@ -36,6 +35,34 @@ import { Avatar } from "@/components/ui/avatar"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Sparklines, SparklinesLine, SparklinesReferenceLine } from 'react-sparklines'
 import { PlayerDrawer } from "./player-drawer"
+
+// At the top of the file, add this interface to define the expected player structure
+interface Player {
+  id: string
+  name: string
+  position: string
+  team: string
+  imageUrl: string
+  fantasyPoints: number
+  passingYards: number
+  passingAttempts: number
+  passingTouchdowns: number
+  rushingYards: number
+  rushingAttempts: number
+  rushingTouchdowns: number
+  receivingYards: number
+  receptions: number
+  targets: number
+  receivingTouchdowns: number
+  ownership: number
+  weeklyPoints: number[]
+  currentOpponent: string
+  difficultyRating: number
+  opponentRank: string
+  byeWeek: number
+  injury: string | null
+  positionRank: string
+}
 
 // Helper function to calculate average over last N games
 const calculateAverage = (points: number[] = [], games: number) => {
@@ -68,27 +95,100 @@ export function PlayersTable() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null)
 
+  const [serverPlayers, setServerPlayers] = useState([])
+
+  useEffect(() => {
+    const fetchPlayers = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/players')
+        if (!response.ok) throw new Error('Failed to fetch players')
+        const data = await response.json()
+        
+        // Transform the data to match required structure
+        const transformedData = data.map((player: any) => ({
+          id: player.id,
+          name: player.name,
+          position: player.position,
+          team: player.team,
+          imageUrl: player.imageUrl,
+          fantasyPoints: 0, // Default values for required fields
+          passingYards: 0,
+          passingAttempts: 0,
+          passingTouchdowns: 0,
+          rushingYards: 0,
+          rushingAttempts: 0,
+          rushingTouchdowns: 0,
+          receivingYards: 0,
+          receptions: 0,
+          targets: 0,
+          receivingTouchdowns: 0,
+          ownership: 0,
+          weeklyPoints: [],
+          currentOpponent: "BYE",
+          difficultyRating: 0,
+          opponentRank: "",
+          byeWeek: 0,
+          injury: null,
+          positionRank: "" // This will be calculated later
+        }))
+
+        console.log('Sample transformed player:', transformedData[0])
+        setServerPlayers(transformedData)
+      } catch (error) {
+        console.error('Error fetching players:', error)
+      }
+    }
+
+    fetchPlayers()
+  }, [])
+
+  useEffect(() => {
+    console.log('2. serverPlayers state:', serverPlayers)
+  }, [serverPlayers])
+
   const playersWithRanks = useMemo(() => {
-    const positionGroups = mockPlayers.reduce((groups, player) => {
+    console.log('3. Calculating playersWithRanks from:', serverPlayers)
+    
+    const positionGroups = serverPlayers.reduce((groups, player) => {
       const position = player.position
       if (!groups[position]) {
         groups[position] = []
       }
       groups[position].push(player)
       return groups
-    }, {} as Record<string, typeof mockPlayers>)
+    }, {} as Record<string, typeof serverPlayers>)
 
-    return mockPlayers.map(player => {
-      const positionGroup = positionGroups[player.position]
-      const sortedGroup = [...positionGroup].sort((a, b) => b.fantasyPoints - a.fantasyPoints)
-      const rank = sortedGroup.findIndex(p => p.name === player.name) + 1
-      const prefix = player.position === "DEF" ? "D" : player.position
-      return {
-        ...player,
-        positionRank: `${prefix}${rank}`
-      }
-    })
-  }, [])
+    const result = serverPlayers.map(player => ({
+      ...player,
+      fantasyPoints: 0,
+      passingYards: 0,
+      passingAttempts: 0,
+      passingTouchdowns: 0,
+      rushingYards: 0,
+      rushingAttempts: 0,
+      rushingTouchdowns: 0,
+      receivingYards: 0,
+      receptions: 0,
+      targets: 0,
+      receivingTouchdowns: 0,
+      ownership: 0,
+      weeklyPoints: [],
+      currentOpponent: "BYE",
+      difficultyRating: 0,
+      opponentRank: "",
+      byeWeek: 0,
+      injury: null,
+      positionRank: `${player.position}${positionGroups[player.position].findIndex(p => p.id === player.id) + 1}`
+    }))
+
+    console.log('4. Calculated playersWithRanks:', result)
+    return result
+  }, [serverPlayers])
+
+  useEffect(() => {
+    console.log('5. Setting filteredPlayers:', playersWithRanks)
+    setFilteredPlayers(playersWithRanks)
+  }, [playersWithRanks])
 
   const [filteredPlayers, setFilteredPlayers] = useState(playersWithRanks)
 
@@ -128,7 +228,7 @@ export function PlayersTable() {
     return "bg-red-500"
   }
 
-  const columns: ColumnDef<typeof mockPlayers[0]>[] = [
+  const columns: ColumnDef<typeof serverPlayers[0]>[] = [
     {
       accessorKey: "name",
       header: "Player",
@@ -517,7 +617,7 @@ export function PlayersTable() {
   ]
 
   // First, let's create shared columns WITHOUT ownership
-  const sharedColumns: ColumnDef<typeof mockPlayers[0]>[] = [
+  const sharedColumns: ColumnDef<typeof serverPlayers[0]>[] = [
     // Player column (existing)
     columns.find(col => col.accessorKey === "name")!,
     // Position Rank column (existing)
@@ -530,7 +630,7 @@ export function PlayersTable() {
   const ownershipColumn = columns.find(col => col.accessorKey === "ownership")!
 
   // New fantasy-specific columns (now with ownership at the end)
-  const fantasyColumns: ColumnDef<typeof mockPlayers[0]>[] = [
+  const fantasyColumns: ColumnDef<typeof serverPlayers[0]>[] = [
     ...sharedColumns,
     {
       accessorKey: "pointsPerGame",
@@ -717,6 +817,8 @@ export function PlayersTable() {
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   })
+
+  console.log('6. Table row count:', table.getRowModel().rows.length)
 
   return (
     <>
