@@ -18,4 +18,5 @@ export type Player = {
   injury: string
   ownership: number
   imageUrl: string
+  positionRank?: string
 } 

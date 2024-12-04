@@ -14,7 +14,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { mockPlayers } from "@/data/mock-players"
-import { ArrowUp, ArrowDown } from "lucide-react"
+import { ArrowUp, ArrowDown, SignalLow, SignalMedium, SignalHigh } from "lucide-react"
 import {
   ColumnDef,
   SortingState,
@@ -34,6 +34,22 @@ import { PositionFilter } from "./players-table-position-filter"
 import { cn } from "@/lib/utils"
 import { Avatar } from "@/components/ui/avatar"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Sparklines, SparklinesLine, SparklinesReferenceLine } from 'react-sparklines'
+import { PlayerDrawer } from "./player-drawer"
+
+// Helper function to calculate average over last N games
+const calculateAverage = (points: number[] = [], games: number) => {
+  if (!points || points.length === 0) return "0.0"
+  const recentGames = points.slice(-games)
+  const total = recentGames.reduce((sum, p) => sum + p, 0)
+  return (total / Math.min(games, recentGames.length)).toFixed(1)
+}
+
+// Helper function to get last week's points
+const getLastWeekPoints = (points: number[] = []) => {
+  if (!points || points.length === 0) return "0.0"
+  return points[points.length - 1].toFixed(1)
+}
 
 export function PlayersTable() {
   const [sorting, setSorting] = useState<SortingState>([
@@ -48,6 +64,9 @@ export function PlayersTable() {
   const [globalFilter, setGlobalFilter] = useState("")
 
   const [activeView, setActiveView] = useState("nfl")
+
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null)
 
   const playersWithRanks = useMemo(() => {
     const positionGroups = mockPlayers.reduce((groups, player) => {
@@ -137,8 +156,8 @@ export function PlayersTable() {
                 </span>
               )}
             </div>
-            <div className="text-xs text-muted-foreground truncate">
-              {row.original.team} · {row.original.position}
+            <div className="text-[10px] text-muted-foreground truncate">
+              {row.original.team} · {row.original.position} ({row.original.byeWeek})
             </div>
           </div>
         </div>
@@ -497,9 +516,194 @@ export function PlayersTable() {
     }
   ]
 
+  // First, let's create shared columns WITHOUT ownership
+  const sharedColumns: ColumnDef<typeof mockPlayers[0]>[] = [
+    // Player column (existing)
+    columns.find(col => col.accessorKey === "name")!,
+    // Position Rank column (existing)
+    columns.find(col => col.accessorKey === "positionRank")!,
+    // Fantasy Points column (existing)
+    columns.find(col => col.accessorKey === "fantasyPoints")!,
+  ]
+
+  // Get ownership column separately
+  const ownershipColumn = columns.find(col => col.accessorKey === "ownership")!
+
+  // New fantasy-specific columns (now with ownership at the end)
+  const fantasyColumns: ColumnDef<typeof mockPlayers[0]>[] = [
+    ...sharedColumns,
+    {
+      accessorKey: "pointsPerGame",
+      header: ({ column }) => (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              className={`flex items-center gap-1 p-1 transition-colors ${
+                column.getIsSorted()
+                  ? "text-white"
+                  : "text-muted-foreground hover:text-white active:text-white"
+              }`}
+              onClick={() => column.toggleSorting(column.getIsSorted() !== "desc")}
+            >
+              <span>PPG</span>
+              <div className="w-3 h-3 ml-1">
+                {column.getIsSorted() === "asc" ? (
+                  <ArrowUp className="h-3 w-3" />
+                ) : column.getIsSorted() === "desc" ? (
+                  <ArrowDown className="h-3 w-3" />
+                ) : null}
+              </div>
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Points Per Game</p>
+          </TooltipContent>
+        </Tooltip>
+      ),
+      cell: ({ row }) => (row.original.fantasyPoints / 17).toFixed(1),
+    },
+    {
+      accessorKey: "lastWeekPoints",
+      header: ({ column }) => (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              className={`flex items-center gap-1 p-1 transition-colors ${
+                column.getIsSorted()
+                  ? "text-white"
+                  : "text-muted-foreground hover:text-white active:text-white"
+              }`}
+              onClick={() => column.toggleSorting(column.getIsSorted() !== "desc")}
+            >
+              <span>Last Week</span>
+              <div className="w-3 h-3 ml-1">
+                {column.getIsSorted() === "asc" ? (
+                  <ArrowUp className="h-3 w-3" />
+                ) : column.getIsSorted() === "desc" ? (
+                  <ArrowDown className="h-3 w-3" />
+                ) : null}
+              </div>
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Last Week's Points</p>
+          </TooltipContent>
+        </Tooltip>
+      ),
+      cell: ({ row }) => getLastWeekPoints(row.original.weeklyPoints),
+    },
+    {
+      accessorKey: "last3Average",
+      header: ({ column }) => (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              className={`flex items-center gap-1 p-1 transition-colors ${
+                column.getIsSorted()
+                  ? "text-white"
+                  : "text-muted-foreground hover:text-white active:text-white"
+              }`}
+              onClick={() => column.toggleSorting(column.getIsSorted() !== "desc")}
+            >
+              <span>Avg L3</span>
+              <div className="w-3 h-3 ml-1">
+                {column.getIsSorted() === "asc" ? (
+                  <ArrowUp className="h-3 w-3" />
+                ) : column.getIsSorted() === "desc" ? (
+                  <ArrowDown className="h-3 w-3" />
+                ) : null}
+              </div>
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Average Last 3 Games</p>
+          </TooltipContent>
+        </Tooltip>
+      ),
+      cell: ({ row }) => calculateAverage(row.original.weeklyPoints, 3),
+    },
+    {
+      accessorKey: "last5Average",
+      header: ({ column }) => (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              className={`flex items-center gap-1 p-1 transition-colors ${
+                column.getIsSorted()
+                  ? "text-white"
+                  : "text-muted-foreground hover:text-white active:text-white"
+              }`}
+              onClick={() => column.toggleSorting(column.getIsSorted() !== "desc")}
+            >
+              <span>Avg L5</span>
+              <div className="w-3 h-3 ml-1">
+                {column.getIsSorted() === "asc" ? (
+                  <ArrowUp className="h-3 w-3" />
+                ) : column.getIsSorted() === "desc" ? (
+                  <ArrowDown className="h-3 w-3" />
+                ) : null}
+              </div>
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Average Last 5 Games</p>
+          </TooltipContent>
+        </Tooltip>
+      ),
+      cell: ({ row }) => calculateAverage(row.original.weeklyPoints, 5),
+    },
+    {
+      accessorKey: "opponent",
+      header: "Opponent",
+      cell: ({ row }) => {
+        const difficulty = row.original.difficultyRating
+        let colorClass = "text-green-500"
+        let label = "Great"
+
+        if (difficulty === 0) {
+          return <span>{row.original.currentOpponent}</span>
+        } else if (difficulty <= 2) {
+          colorClass = "text-red-500"
+          label = "Difficult"
+        } else if (difficulty === 3) {
+          colorClass = "text-orange-500"
+          label = "Average"
+        }
+
+        return (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex flex-col items-start cursor-pointer">
+                <span>{row.original.currentOpponent}</span>
+                <div className="flex items-start gap-0.5">
+                  <SignalHigh className={`h-4 w-4 ${colorClass}`} />
+                  <span className={`text-[11px] ${colorClass}`}>{label}</span>
+                </div>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{row.original.opponentRank}</p>
+            </TooltipContent>
+          </Tooltip>
+        )
+      },
+    },
+    ownershipColumn,
+  ]
+
+  // In your PlayersTable component, modify the table to use conditional columns
+  const activeColumns = useMemo(() => {
+    const nflColumnsWithOwnership = [
+      ...columns.filter(col => col.accessorKey !== "ownership"),
+      ownershipColumn
+    ]
+    return activeView === 'nfl' ? nflColumnsWithOwnership : fantasyColumns
+  }, [activeView])
+
+  // Update the table configuration
   const table = useReactTable({
     data: filteredPlayers,
-    columns,
+    columns: activeColumns,
     state: {
       sorting,
       pagination,
@@ -515,88 +719,101 @@ export function PlayersTable() {
   })
 
   return (
-    <TooltipProvider>
-      <div>
-        <div className="flex items-center justify-end gap-4 mb-4">
-          <Tabs 
-            value={activeView} 
-            onValueChange={setActiveView}
-            className="w-[200px]"
-          >
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="nfl">NFL</TabsTrigger>
-              <TabsTrigger value="fantasy">Fantasy</TabsTrigger>
-            </TabsList>
-          </Tabs>
+    <>
+      <TooltipProvider>
+        <div>
+          <div className="flex items-center justify-end gap-4 mb-4">
+            <Tabs 
+              value={activeView} 
+              onValueChange={setActiveView}
+              className="w-[200px]"
+            >
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="nfl">NFL</TabsTrigger>
+                <TabsTrigger value="fantasy">Fantasy</TabsTrigger>
+              </TabsList>
+            </Tabs>
 
-          <div className="flex items-center gap-2">
-            <PositionFilter onChange={handlePositionChange} />
-            <TableSearch
-              value={globalFilter}
-              onChange={setGlobalFilter}
-              onClear={() => setGlobalFilter("")}
-            />
+            <div className="flex items-center gap-2">
+              <PositionFilter onChange={handlePositionChange} />
+              <TableSearch
+                value={globalFilter}
+                onChange={setGlobalFilter}
+                onClear={() => setGlobalFilter("")}
+              />
+            </div>
+          </div>
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow className="hover:bg-transparent">
+                  {table.getHeaderGroups().map((headerGroup) => (
+                    headerGroup.headers.map((header) => (
+                      <TableHead key={header.id} className="font-medium text-xs bg-muted/40">
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </TableHead>
+                    ))
+                  ))}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <TableRow 
+                      key={row.id}
+                      className="hover:bg-muted/50 cursor-pointer"
+                      onClick={() => {
+                        setSelectedPlayer(row.original)
+                        setIsDrawerOpen(true)
+                      }}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableEmpty 
+                    searchTerm={globalFilter} 
+                    colSpan={columns.length} 
+                  />
+                )}
+              </TableBody>
+              <TableFooter>
+                <TableRow className="hover:bg-transparent">
+                  <TableCell colSpan={columns.length}>
+                    <TablePagination
+                      rowsPerPage={pageSize}
+                      page={pageIndex}
+                      totalRows={table.getFilteredRowModel().rows.length}
+                      setRowsPerPage={(value) => 
+                        setPagination((prev) => ({ ...prev, pageSize: value }))
+                      }
+                      setPage={(value) => 
+                        setPagination((prev) => ({ ...prev, pageIndex: value }))
+                      }
+                    />
+                  </TableCell>
+                </TableRow>
+              </TableFooter>
+            </Table>
           </div>
         </div>
-        <div className="rounded-md border">
-          <Table>
-            <TableHeader>
-              <TableRow className="hover:bg-transparent">
-                {table.getHeaderGroups().map((headerGroup) => (
-                  headerGroup.headers.map((header) => (
-                    <TableHead key={header.id} className="font-medium text-xs bg-muted/40">
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  ))
-                ))}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow 
-                    key={row.id}
-                    className="hover:bg-muted/50 cursor-pointer"
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableEmpty 
-                  searchTerm={globalFilter} 
-                  colSpan={columns.length} 
-                />
-              )}
-            </TableBody>
-            <TableFooter>
-              <TableRow className="hover:bg-transparent">
-                <TableCell colSpan={columns.length}>
-                  <TablePagination
-                    rowsPerPage={pageSize}
-                    page={pageIndex}
-                    totalRows={table.getFilteredRowModel().rows.length}
-                    setRowsPerPage={(value) => 
-                      setPagination((prev) => ({ ...prev, pageSize: value }))
-                    }
-                    setPage={(value) => 
-                      setPagination((prev) => ({ ...prev, pageIndex: value }))
-                    }
-                  />
-                </TableCell>
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </div>
-      </div>
-    </TooltipProvider>
+      </TooltipProvider>
+      {selectedPlayer && (
+        <PlayerDrawer
+          isOpen={isDrawerOpen}
+          onOpenChange={setIsDrawerOpen}
+          player={selectedPlayer}
+        />
+      )}
+    </>
   )
 } 

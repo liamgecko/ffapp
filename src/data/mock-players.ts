@@ -18,6 +18,10 @@ export type Player = {
   injury: string
   ownership: number
   imageUrl: string
+  weeklyPoints: number[]
+  currentOpponent: string
+  difficultyRating: number
+  opponentRank: string
 }
 
 export const mockPlayers: Player[] = [
@@ -40,7 +44,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 99,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3139477.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3139477.png",
+    weeklyPoints: [20.5, 25.3, 30.1, 18.7, 22.4, 28.9, 31.2, 24.5, 27.8, 29.0, 26.1, 23.4, 21.7, 19.8, 28.3, 30.0, 32.1],
+    currentOpponent: "vs DEN",
+    difficultyRating: 3,
+    opponentRank: "Denver Broncos ranks 14th against Quarterbacks",
   },
   {
     id: "2",
@@ -61,7 +69,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 7,
     injury: "",
     ownership: 99,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3117251.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3117251.png",
+    weeklyPoints: [18.5, 22.3, 27.1, 15.7, 20.4, 25.9, 28.2, 21.5, 24.8, 26.0, 23.1, 20.4, 19.7, 18.8, 25.3, 27.0, 29.1],
+    currentOpponent: "BYE",
+    difficultyRating: 0,
+    opponentRank: "",
   },
   {
     id: "3",
@@ -82,7 +94,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 8,
     injury: "",
     ownership: 98,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4262921.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4262921.png",
+    weeklyPoints: [15.5, 20.3, 25.1, 12.7, 17.4, 22.9, 25.2, 18.5, 21.8, 23.0, 20.1, 17.4, 16.7, 15.8, 22.3, 24.0, 26.1],
+    currentOpponent: "vs GB",
+    difficultyRating: 4,
+    opponentRank: "Green Bay Packers ranks 24th against Wide Receivers",
   },
   {
     id: "4",
@@ -103,7 +119,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 12,
     injury: "OUT",
     ownership: 98,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/15847.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/15847.png",
+    weeklyPoints: [12.5, 17.3, 22.1, 9.7, 14.4, 19.9, 22.2, 15.5, 18.8, 20.0, 17.1, 14.4, 13.7, 12.8, 19.3, 21.0, 23.1],
+    currentOpponent: "vs DEN",
+    difficultyRating: 2,
+    opponentRank: "Denver Broncos ranks 6th against Tight Ends",
   },
   {
     id: "5",
@@ -124,7 +144,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 98,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3918298.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3918298.png",
+    weeklyPoints: [22.5, 27.3, 32.1, 20.7, 25.4, 30.9, 33.2, 26.5, 29.8, 31.0, 28.1, 25.4, 23.7, 22.8, 31.3, 33.0, 35.1],
+    currentOpponent: "vs NE",
+    difficultyRating: 5,
+    opponentRank: "New England Patriots ranks 31st against Quarterbacks",
   },
   {
     id: "6",
@@ -145,7 +169,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 5,
     injury: "",
     ownership: 96,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3128720.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3128720.png",
+    weeklyPoints: [16.5, 21.3, 26.1, 14.7, 19.4, 24.9, 27.2, 20.5, 23.8, 25.0, 22.1, 19.4, 18.7, 17.8, 24.3, 26.0, 28.1],
+    currentOpponent: "BYE",
+    difficultyRating: 0,
+    opponentRank: "",
   },
   {
     id: "7",
@@ -166,7 +194,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 7,
     injury: "",
     ownership: 97,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3116406.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3116406.png",
+    weeklyPoints: [14.5, 19.3, 24.1, 11.7, 16.4, 21.9, 24.2, 17.5, 20.8, 22.0, 19.1, 16.4, 15.7, 14.8, 21.3, 23.0, 25.1],
+    currentOpponent: "vs NYJ",
+    difficultyRating: 1,
+    opponentRank: "New York Jets ranks 1st against Wide Receivers",
   },
   {
     id: "8",
@@ -187,7 +219,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 95,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/15683.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/15683.png",
+    weeklyPoints: [8.5, 10.3, 12.1, 7.7, 9.4, 11.9, 13.2, 10.5, 11.8, 12.0, 10.1, 9.4, 8.7, 7.8, 11.3, 13.0, 14.1],
+    currentOpponent: "vs PIT",
+    difficultyRating: 3,
+    opponentRank: "Pittsburgh Steelers ranks 16th against Kickers",
   },
   {
     id: "9",
@@ -208,7 +244,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 94,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/sf.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/sf.png",
+    weeklyPoints: [10.5, 12.3, 14.1, 9.7, 11.4, 13.9, 15.2, 12.5, 13.8, 14.0, 12.1, 11.4, 10.7, 9.8, 13.3, 15.0, 16.1],
+    currentOpponent: "BYE",
+    difficultyRating: 0,
+    opponentRank: "",
   },
   {
     id: "10",
@@ -229,7 +269,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 5,
     injury: "Q",
     ownership: 85,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3116365.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3116365.png",
+    weeklyPoints: [11.5, 16.3, 21.1, 8.7, 13.4, 18.9, 21.2, 14.5, 17.8, 19.0, 16.1, 13.4, 12.7, 11.8, 18.3, 20.0, 22.1],
+    currentOpponent: "vs CLE",
+    difficultyRating: 2,
+    opponentRank: "Cleveland Browns ranks 7th against Tight Ends",
   },
   {
     id: "11",
@@ -250,7 +294,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 97,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4040715.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4040715.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 4,
+    opponentRank: "Dallas Cowboys ranks 10th against Quarterbacks",
   },
   {
     id: "12",
@@ -271,7 +319,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 96,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3916387.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3916387.png",
+    weeklyPoints: [],
+    currentOpponent: "vs CIN",
+    difficultyRating: 3,
+    opponentRank: "Cincinnati Bengals ranks 15th against Quarterbacks",
   },
   {
     id: "13",
@@ -292,7 +344,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 9,
     injury: "",
     ownership: 97,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4362628.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4362628.png",
+    weeklyPoints: [],
+    currentOpponent: "vs BAL",
+    difficultyRating: 4,
+    opponentRank: "Baltimore Ravens ranks 8th against Wide Receivers",
   },
   {
     id: "14",
@@ -313,7 +369,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 11,
     injury: "",
     ownership: 96,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/2976212.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/2976212.png",
+    weeklyPoints: [],
+    currentOpponent: "vs MIA",
+    difficultyRating: 2,
+    opponentRank: "Miami Dolphins ranks 20th against Wide Receivers",
   },
   {
     id: "15",
@@ -334,7 +394,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 3,
     injury: "",
     ownership: 95,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4040761.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4040761.png",
+    weeklyPoints: [],
+    currentOpponent: "vs PHI",
+    difficultyRating: 5,
+    opponentRank: "Philadelphia Eagles ranks 2nd against Running Backs",
   },
   {
     id: "16",
@@ -355,7 +419,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 94,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4241479.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4241479.png",
+    weeklyPoints: [],
+    currentOpponent: "vs BUF",
+    difficultyRating: 3,
+    opponentRank: "Buffalo Bills ranks 12th against Quarterbacks",
   },
   {
     id: "17",
@@ -376,7 +444,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 12,
     injury: "",
     ownership: 98,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4241389.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4241389.png",
+    weeklyPoints: [],
+    currentOpponent: "vs PHI",
+    difficultyRating: 4,
+    opponentRank: "Philadelphia Eagles ranks 9th against Wide Receivers",
   },
   {
     id: "18",
@@ -397,7 +469,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 10,
     injury: "",
     ownership: 97,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4374302.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4374302.png",
+    weeklyPoints: [],
+    currentOpponent: "BYE",
+    difficultyRating: 0,
+    opponentRank: "",
   },
   {
     id: "19",
@@ -418,7 +494,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 4,
     injury: "",
     ownership: 95,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4427366.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4427366.png",
+    weeklyPoints: [],
+    currentOpponent: "vs NE",
+    difficultyRating: 5,
+    opponentRank: "New England Patriots ranks 3rd against Running Backs",
   },
   {
     id: "20",
@@ -439,7 +519,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 6,
     injury: "",
     ownership: 94,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3040151.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3040151.png",
+    weeklyPoints: [],
+    currentOpponent: "BYE",
+    difficultyRating: 0,
+    opponentRank: "",
   },
   {
     id: "21",
@@ -460,7 +544,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 1,
     injury: "Q",
     ownership: 88,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4429202.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4429202.png",
+    weeklyPoints: [],
+    currentOpponent: "vs LAR",
+    difficultyRating: 2,
+    opponentRank: "Los Angeles Rams ranks 18th against Running Backs",
   },
   {
     id: "22",
@@ -481,7 +569,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 95,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4038941.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4038941.png",
+    weeklyPoints: [],
+    currentOpponent: "vs KC",
+    difficultyRating: 4,
+    opponentRank: "Kansas City Chiefs ranks 11th against Quarterbacks",
   },
   {
     id: "23",
@@ -502,7 +594,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 7,
     injury: "",
     ownership: 92,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4241478.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4241478.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Wide Receivers",
   },
   {
     id: "24",
@@ -523,12 +619,16 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 3,
     injury: "",
     ownership: 89,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3128721.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3128721.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 10th against Tight Ends",
   },
   {
     id: "25",
     name: "Derrick Henry",
-    team: "BAL",
+    team: "TEN",
     position: "RB",
     byeWeek: 7,
     fantasyPoints: 235.6,
@@ -544,7 +644,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 96,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3043078.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3043078.png",
+    weeklyPoints: [],
+    currentOpponent: "vs IND",
+    difficultyRating: 3,
+    opponentRank: "Indianapolis Colts ranks 14th against Running Backs",
   },
   {
     id: "26",
@@ -565,7 +669,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 7,
     injury: "",
     ownership: 85,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/15795.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/15795.png",
+    weeklyPoints: [],
+    currentOpponent: "vs IND",
+    difficultyRating: 3,
+    opponentRank: "Indianapolis Colts ranks 17th against Wide Receivers",
   },
   {
     id: "27",
@@ -586,7 +694,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 2,
     injury: "OUT",
     ownership: 45,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4362628.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4362628.png",
+    weeklyPoints: [],
+    currentOpponent: "vs CLE",
+    difficultyRating: 4,
+    opponentRank: "Cleveland Browns ranks 5th against Tight Ends",
   },
   {
     id: "28",
@@ -607,7 +719,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 93,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/2577417.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/2577417.png",
+    weeklyPoints: [],
+    currentOpponent: "vs PHI",
+    difficultyRating: 4,
+    opponentRank: "Philadelphia Eagles ranks 9th against Quarterbacks",
   },
   {
     id: "29",
@@ -628,7 +744,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 5,
     injury: "",
     ownership: 92,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4361370.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4361370.png",
+    weeklyPoints: [],
+    currentOpponent: "vs ATL",
+    difficultyRating: 2,
+    opponentRank: "Atlanta Falcons ranks 22nd against Wide Receivers",
   },
   {
     id: "30",
@@ -649,7 +769,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 4,
     injury: "",
     ownership: 88,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3051902.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3051902.png",
+    weeklyPoints: [],
+    currentOpponent: "BYE",
+    difficultyRating: 0,
+    opponentRank: "",
   },
   {
     id: "31",
@@ -670,7 +794,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 4,
     injury: "",
     ownership: 89,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4379399.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4379399.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Running Backs",
   },
   {
     id: "32",
@@ -691,7 +819,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "OUT",
     ownership: 65,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4362887.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4362887.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Quarterbacks",
   },
   {
     id: "33",
@@ -712,7 +844,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 4,
     injury: "",
     ownership: 75,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4426502.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4426502.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Wide Receivers",
   },
   {
     id: "34",
@@ -733,7 +869,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 3,
     injury: "",
     ownership: 62,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4372016.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4372016.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Tight Ends",
   },
   {
     id: "35",
@@ -754,7 +894,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 2,
     injury: "",
     ownership: 82,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4361579.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4361579.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Running Backs",
   },
   {
     id: "36",
@@ -775,7 +919,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 68,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4036026.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4036026.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Quarterbacks",
   },
   {
     id: "37",
@@ -796,7 +944,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 4,
     injury: "",
     ownership: 85,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4569618.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4569618.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Wide Receivers",
   },
   {
     id: "38",
@@ -817,7 +969,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 10,
     injury: "",
     ownership: 78,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4430027.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4430027.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Tight Ends",
   },
   {
     id: "39",
@@ -838,7 +994,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 1,
     injury: "IR",
     ownership: 45,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4035663.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4035663.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Running Backs",
   },
   {
     id: "40",
@@ -859,7 +1019,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "IR",
     ownership: 25,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4432577.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4432577.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Quarterbacks",
   },
   {
     id: "41",
@@ -880,7 +1044,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 96,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/dal.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/dal.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Defensive Players",
   },
   {
     id: "42",
@@ -901,7 +1069,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 95,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3052587.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3052587.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Kickers",
   },
   {
     id: "43",
@@ -922,7 +1094,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 92,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/phi.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/phi.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Defensive Players",
   },
   {
     id: "44",
@@ -943,7 +1119,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 88,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/buf.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/buf.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Defensive Players",
   },
   {
     id: "45",
@@ -964,7 +1144,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 92,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3953687.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3953687.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Kickers",
   },
   {
     id: "46",
@@ -985,7 +1169,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 88,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3051929.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3051929.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Kickers",
   },
   {
     id: "47",
@@ -1006,7 +1194,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 85,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/bal.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/bal.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Defensive Players",
   },
   {
     id: "48",
@@ -1027,7 +1219,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 82,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/cle.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/cle.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Defensive Players",
   },
   {
     id: "49",
@@ -1048,7 +1244,11 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 85,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4372066.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4372066.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Kickers",
   },
   {
     id: "50",
@@ -1069,6 +1269,10 @@ export const mockPlayers: Player[] = [
     receivingTouchdowns: 0,
     injury: "",
     ownership: 78,
-    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3124679.png"
+    imageUrl: "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3124679.png",
+    weeklyPoints: [],
+    currentOpponent: "vs DAL",
+    difficultyRating: 3,
+    opponentRank: "Dallas Cowboys ranks 13th against Kickers",
   }
 ] 
