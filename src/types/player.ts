@@ -1,22 +1,19 @@
-export type Player = {
+export interface Player {
   id: string
   name: string
+  position: 'QB' | 'RB' | 'WR' | 'TE' | 'K' | 'DEF'
   team: string
-  position: string
-  byeWeek: number
-  fantasyPoints: number
-  passingYards: number
-  passingAttempts: number
-  passingTouchdowns: number
-  rushingYards: number
-  rushingAttempts: number
-  rushingTouchdowns: number
-  receivingYards: number
-  receptions: number
-  targets: number
-  receivingTouchdowns: number
-  injury: string
-  ownership: number
   imageUrl: string
-  positionRank?: string
+  byeWeek: number
+  currentOpponent: string
+  injury: string
+  fantasyPoints: number
+  positionRank: string
+  weeklyPoints: number[]
+  averagePoints: number
+  lastWeekPoints: number
+  lastThreeAvg: number
+  lastFiveAvg: number
+  ownership: number
+  difficultyRating?: number
 } 

@@ -7,7 +7,11 @@ import {
 } from "@/components/ui/select"
 import { ListFilter } from "lucide-react"
 
-export function PositionFilter({ onChange }: { onChange: (position: string) => void }) {
+interface PositionFilterProps {
+  onChange: (position: string) => void
+}
+
+export function PositionFilter({ onChange }: PositionFilterProps) {
   return (
     <Select onValueChange={onChange} defaultValue="ALL">
       <SelectTrigger className="w-[180px]">

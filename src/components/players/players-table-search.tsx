@@ -1,28 +1,30 @@
+import { Table } from "@tanstack/react-table"
 import { Input } from "@/components/ui/input"
+import { Player } from "@/types/player"
 import { Search, X } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { Button } from "@/components/ui/button"
 
 interface TableSearchProps {
-  value: string
-  onChange: (value: string) => void
-  onClear: () => void
+  table: Table<Player>
 }
 
-export function TableSearch({ value, onChange, onClear }: TableSearchProps) {
+export function TableSearch({ table }: TableSearchProps) {
+  const value = table.getState().globalFilter ?? ""
+
   return (
-    <div className="relative w-72">
-      <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+    <div className="relative">
+      <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
       <Input
         placeholder="Search players"
         value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="pl-8 pr-8"
+        onChange={(event) => table.setGlobalFilter(event.target.value)}
+        className="w-[300px] pl-8 pr-8"
       />
       {value && (
         <TooltipProvider>
@@ -30,9 +32,9 @@ export function TableSearch({ value, onChange, onClear }: TableSearchProps) {
             <TooltipTrigger asChild>
               <Button
                 variant="ghost"
-                size="icon"
-                className="absolute right-0 top-0 h-full px-2 hover:bg-transparent"
-                onClick={onClear}
+                size="sm"
+                className="absolute right-0 top-1/2 h-full -translate-y-1/2 hover:bg-transparent"
+                onClick={() => table.setGlobalFilter("")}
               >
                 <X className="h-4 w-4 text-muted-foreground hover:text-foreground" />
               </Button>

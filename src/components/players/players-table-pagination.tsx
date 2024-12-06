@@ -7,39 +7,24 @@ import {
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react"
+import { Table } from "@tanstack/react-table"
+import { Player } from "@/types/player"
 
 interface TablePaginationProps {
-  rowsPerPage: number
-  page: number
-  totalRows: number
-  setRowsPerPage: (value: number) => void
-  setPage: (value: number) => void
+  table: Table<Player>
 }
 
-export function TablePagination({
-  rowsPerPage,
-  page,
-  totalRows,
-  setRowsPerPage,
-  setPage,
-}: TablePaginationProps) {
-  const totalPages = Math.ceil(totalRows / rowsPerPage)
-  const start = page * rowsPerPage + 1
-  const end = Math.min((page + 1) * rowsPerPage, totalRows)
-
+export function TablePagination({ table }: TablePaginationProps) {
   return (
     <div className="flex items-center justify-between px-2">
       <div className="flex items-center space-x-2 text-sm text-muted-foreground">
         <p>Rows per page:</p>
         <Select
-          value={rowsPerPage.toString()}
-          onValueChange={(value) => {
-            setRowsPerPage(Number(value))
-            setPage(0)
-          }}
+          value={table.getState().pagination.pageSize.toString()}
+          onValueChange={(value) => table.setPageSize(Number(value))}
         >
           <SelectTrigger className="h-8 w-[70px]">
-            <SelectValue placeholder={rowsPerPage} />
+            <SelectValue />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="5">5</SelectItem>
@@ -52,38 +37,38 @@ export function TablePagination({
 
       <div className="flex items-center space-x-4">
         <div className="flex items-center justify-center text-sm text-muted-foreground">
-          {`${start}–${end} of ${totalRows}`}
+          Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
         </div>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-1">
           <Button
             variant="outline"
             size="icon"
-            onClick={() => setPage(0)}
-            disabled={page === 0}
+            onClick={() => table.setPageIndex(0)}
+            disabled={!table.getCanPreviousPage()}
           >
             <ChevronsLeft className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
             size="icon"
-            onClick={() => setPage(page - 1)}
-            disabled={page === 0}
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
             size="icon"
-            onClick={() => setPage(page + 1)}
-            disabled={page === totalPages - 1}
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
             size="icon"
-            onClick={() => setPage(totalPages - 1)}
-            disabled={page === totalPages - 1}
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
           >
             <ChevronsRight className="h-4 w-4" />
           </Button>
