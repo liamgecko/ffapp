@@ -13,7 +13,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { mockPlayers } from "@/data/mock-players"
+import { Player, fetchPlayers } from "@/lib/fetch-players"
 import { ArrowUp, ArrowDown, SignalLow, SignalMedium, SignalHigh } from "lucide-react"
 import {
   ColumnDef,
@@ -26,7 +26,7 @@ import {
   PaginationState,
   getFilteredRowModel,
 } from "@tanstack/react-table"
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { TablePagination } from "./players-table-pagination"
 import { TableSearch } from "./players-table-search"
 import { TableEmpty } from "./players-table-empty"
@@ -52,33 +52,53 @@ const getLastWeekPoints = (points: number[] = []) => {
 }
 
 export function PlayersTable() {
+  const [players, setPlayers] = useState<Player[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [sorting, setSorting] = useState<SortingState>([
     { id: "fantasyPoints", desc: true }
   ])
-
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
   })
-
   const [globalFilter, setGlobalFilter] = useState("")
-
   const [activeView, setActiveView] = useState("nfl")
-
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null)
+  const [filteredPlayers, setFilteredPlayers] = useState<Player[]>([])
+
+  useEffect(() => {
+    async function loadPlayers() {
+      try {
+        setIsLoading(true)
+        setError(null)
+        const data = await fetchPlayers()
+        console.log('Loaded players:', data.length)
+        setPlayers(data)
+        setFilteredPlayers(data)
+      } catch (err) {
+        console.error('Error loading players:', err)
+        setError('Failed to load players')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadPlayers()
+  }, [])
 
   const playersWithRanks = useMemo(() => {
-    const positionGroups = mockPlayers.reduce((groups, player) => {
+    const positionGroups = players.reduce((groups, player) => {
       const position = player.position
       if (!groups[position]) {
         groups[position] = []
       }
       groups[position].push(player)
       return groups
-    }, {} as Record<string, typeof mockPlayers>)
+    }, {} as Record<string, typeof players>)
 
-    return mockPlayers.map(player => {
+    return players.map(player => {
       const positionGroup = positionGroups[player.position]
       const sortedGroup = [...positionGroup].sort((a, b) => b.fantasyPoints - a.fantasyPoints)
       const rank = sortedGroup.findIndex(p => p.name === player.name) + 1
@@ -88,9 +108,7 @@ export function PlayersTable() {
         positionRank: `${prefix}${rank}`
       }
     })
-  }, [])
-
-  const [filteredPlayers, setFilteredPlayers] = useState(playersWithRanks)
+  }, [players])
 
   const handlePositionChange = (position: string) => {
     if (position === "ALL") {
