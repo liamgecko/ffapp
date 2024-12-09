@@ -13,7 +13,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { ArrowUp, ArrowDown, SignalLow, SignalMedium, SignalHigh } from "lucide-react"
+import { ArrowUp, ArrowDown, SignalLow, SignalMedium, SignalHigh, Loader2 } from "lucide-react"
 import {
   ColumnDef,
   SortingState,
@@ -36,6 +36,13 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Sparklines, SparklinesLine, SparklinesReferenceLine } from 'react-sparklines'
 import { PlayerDrawer } from "./player-drawer"
 import axios from "axios"
+import { Player, CombinedPlayerData } from "@/types/player"
+
+declare module 'react-sparklines' {
+  export const Sparklines: React.FC<{ data: number[] }>
+  export const SparklinesLine: React.FC<{ color?: string }>
+  export const SparklinesReferenceLine: React.FC<{ type?: string }>
+}
 
 // Move all helper functions to the top
 const calculateAverage = (points: number[] = [], games: number) => {
@@ -69,6 +76,30 @@ const getOwnershipColor = (ownership: number): string => {
   if (ownership >= 45) return "bg-orange-500"
   if (ownership >= 35) return "bg-rose-400"
   return "bg-red-500"
+}
+
+const calculatePositionRanks = (players: CombinedPlayerData[]) => {
+  const positionGroups = players.reduce((groups, player) => {
+    const position = player.position
+    if (!groups[position]) {
+      groups[position] = []
+    }
+    groups[position].push(player)
+    return groups
+  }, {} as Record<string, CombinedPlayerData[]>)
+
+  return players.map(player => {
+    const positionGroup = positionGroups[player.position]
+    const sortedGroup = [...positionGroup].sort((a, b) => 
+      (b.fantasyPoints || 0) - (a.fantasyPoints || 0)
+    )
+    const rank = sortedGroup.findIndex(p => p.name === player.name) + 1
+    const prefix = player.position === "DEF" ? "D" : player.position
+    return {
+      ...player,
+      positionRank: `${prefix}${rank}`
+    }
+  })
 }
 
 export function PlayersTable() {
@@ -1404,31 +1435,14 @@ export function PlayersTable() {
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     sortingFns: {
-      fieldGoalsMade: (rowA, rowB) => {
-        const a = rowA.original.fieldGoalsMade ?? 0;
-        const b = rowB.original.fieldGoalsMade ?? 0;
-        return b - a;
-      },
-      fieldGoalsAttempted: (rowA, rowB) => {
-        const a = rowA.original.fieldGoalsAttempted ?? 0;
-        const b = rowB.original.fieldGoalsAttempted ?? 0;
-        return b - a;
-      },
-      fieldGoalPercentage: (rowA, rowB) => {
-        const aFGM = rowA.original.fieldGoalsMade ?? 0;
-        const aFGA = rowA.original.fieldGoalsAttempted ?? 0;
-        const bFGM = rowB.original.fieldGoalsMade ?? 0;
-        const bFGA = rowB.original.fieldGoalsAttempted ?? 0;
-        
-        const aPercentage = aFGA > 0 ? (aFGM / aFGA * 100) : 0;
-        const bPercentage = bFGA > 0 ? (bFGM / bFGA * 100) : 0;
-        
-        return bPercentage - aPercentage;
-      },
-      // Offensive stats
       passingYards: (rowA, rowB) => {
         const a = rowA.original.passingYards ?? 0;
         const b = rowB.original.passingYards ?? 0;
+        return b - a;
+      },
+      passingAttempts: (rowA, rowB) => {
+        const a = rowA.original.passingAttempts ?? 0;
+        const b = rowB.original.passingAttempts ?? 0;
         return b - a;
       },
       passingTouchdowns: (rowA, rowB) => {
@@ -1441,14 +1455,14 @@ export function PlayersTable() {
         const b = rowB.original.rushingYards ?? 0;
         return b - a;
       },
+      rushingAttempts: (rowA, rowB) => {
+        const a = rowA.original.rushingAttempts ?? 0;
+        const b = rowB.original.rushingAttempts ?? 0;
+        return b - a;
+      },
       rushingTouchdowns: (rowA, rowB) => {
         const a = rowA.original.rushingTouchdowns ?? 0;
         const b = rowB.original.rushingTouchdowns ?? 0;
-        return b - a;
-      },
-      receptions: (rowA, rowB) => {
-        const a = rowA.original.receptions ?? 0;
-        const b = rowB.original.receptions ?? 0;
         return b - a;
       },
       receivingYards: (rowA, rowB) => {
@@ -1456,11 +1470,21 @@ export function PlayersTable() {
         const b = rowB.original.receivingYards ?? 0;
         return b - a;
       },
+      receptions: (rowA, rowB) => {
+        const a = rowA.original.receptions ?? 0;
+        const b = rowB.original.receptions ?? 0;
+        return b - a;
+      },
+      targets: (rowA, rowB) => {
+        const a = rowA.original.targets ?? 0;
+        const b = rowB.original.targets ?? 0;
+        return b - a;
+      },
       receivingTouchdowns: (rowA, rowB) => {
         const a = rowA.original.receivingTouchdowns ?? 0;
         const b = rowB.original.receivingTouchdowns ?? 0;
         return b - a;
-      },
+      }
     }
   })
 
@@ -1478,9 +1502,12 @@ export function PlayersTable() {
           K: response.data.filter(p => p.position === 'K').length,
           DEF: response.data.filter(p => p.position === 'DEF').length,
         });
-        console.log('Defense players:', response.data.filter(p => p.position === 'DEF'));
-        setPlayers(response.data)
-        setFilteredPlayers(response.data)
+        
+        // Calculate position ranks before setting the data
+        const playersWithRanks = calculatePositionRanks(response.data);
+        
+        setPlayers(playersWithRanks)
+        setFilteredPlayers(playersWithRanks)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch players')
       } finally {
@@ -1502,7 +1529,12 @@ export function PlayersTable() {
 
   // 5. Render
   if (loading) {
-    return <div className="flex items-center justify-center p-8">Loading players...</div>
+    return (
+      <div className="flex flex-col items-center justify-center p-12 min-h-[400px] text-muted-foreground">
+        <Loader2 className="h-8 w-8 animate-spin mb-4" />
+        <p>Loading players...</p>
+      </div>
+    )
   }
 
   if (error) {
