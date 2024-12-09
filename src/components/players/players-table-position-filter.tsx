@@ -5,25 +5,33 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { ListFilter } from "lucide-react"
 
-export function PositionFilter({ onChange }: { onChange: (position: string) => void }) {
+const POSITIONS = [
+  { value: "ALL", label: "All Positions" },
+  { value: "QB", label: "Quarterback" },
+  { value: "RB", label: "Running Back" },
+  { value: "WR", label: "Wide Receiver" },
+  { value: "TE", label: "Tight End" },
+  { value: "K", label: "Kicker" },
+  { value: "DEF", label: "Defense" }
+]
+
+interface PositionFilterProps {
+  onChange: (value: string) => void
+}
+
+export function PositionFilter({ onChange }: PositionFilterProps) {
   return (
     <Select onValueChange={onChange} defaultValue="ALL">
       <SelectTrigger className="w-[180px]">
-        <div className="flex items-center gap-2">
-          <ListFilter className="h-4 w-4" />
-          <SelectValue placeholder="Position" />
-        </div>
+        <SelectValue placeholder="Select position" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="ALL">All Positions</SelectItem>
-        <SelectItem value="QB">Quarterback</SelectItem>
-        <SelectItem value="RB">Running Back</SelectItem>
-        <SelectItem value="WR">Wide Receiver</SelectItem>
-        <SelectItem value="TE">Tight End</SelectItem>
-        <SelectItem value="K">Kicker</SelectItem>
-        <SelectItem value="DEF">Defense</SelectItem>
+        {POSITIONS.map(position => (
+          <SelectItem key={position.value} value={position.value}>
+            {position.label}
+          </SelectItem>
+        ))}
       </SelectContent>
     </Select>
   )
